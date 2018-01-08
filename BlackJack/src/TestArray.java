@@ -13,6 +13,7 @@ public class TestArray {
 	private static Image scaleImage;
 	
 	static {
+		System.out.println("Initialising pictures for cards!");
 		for(int n = 0; n < 11; n++){
 			for(int i= 0; i<4; i++){
 				char suit;
@@ -34,16 +35,16 @@ public class TestArray {
 				pictureArray[i][n]= new ImageIcon (scaleImage);
 			}
 		}
-		for (int n = 11; n < 13;  n++){
+		for (int n = 9; n <= 12;  n++){
 			
 			char Vletter;
-			if(n==11){
+			if(n==9){
 				Vletter = 'J';
 			}
-			else if(n==12){
+			else if(n==10){
 				Vletter = 'Q';
 			}
-			else if(n==13){
+			else if(n==11){
 				Vletter = 'K';
 			}
 			else {
@@ -65,16 +66,17 @@ public class TestArray {
 					suit = 'C';
 				}
 				
-				nameOfPic = Vletter+ suit + ".png";
+				nameOfPic = Vletter + "" + suit + ".png";
 				ImagetoScale = new ImageIcon(nameOfPic);
 				scaleImage = ImagetoScale.getImage().getScaledInstance(100, 150, Image.SCALE_DEFAULT);
 				pictureArray[k][n]= new ImageIcon (scaleImage);
 			}
 		}
-		
+		System.out.println("Done initialising pictures for cards!");
 	}
 	
 	public static ImageIcon picOfCards(int Color, int value){
+		//string och int--> 		
 		return pictureArray[Color][value];
 	}
 			

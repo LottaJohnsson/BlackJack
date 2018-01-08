@@ -14,10 +14,6 @@ public class BlackJackWindow extends JFrame implements ActionListener{
 	private JLabel sum = new JLabel ();
 	private JLabel finishedGame = new JLabel();
 	private JLabel resultOne = new JLabel();
-	private JLabel resultTwo = new JLabel();
-	private JLabel resultThree = new JLabel();
-	private JLabel resultFour = new JLabel();
-	private JLabel resultFive = new JLabel();
 	
 	private JButton cardButton = new JButton ("MORE CARDS");
 	private JButton startButton = new JButton("START");
@@ -27,30 +23,15 @@ public class BlackJackWindow extends JFrame implements ActionListener{
 	private JPanel topLabels = new JPanel(new GridLayout(1,2,5,15));
 	private JPanel buttons = new JPanel(new GridLayout(1,2,5,15));
 	private JPanel picturesOfCards = new JPanel(new GridLayout(1,2,1,1));//kolla hur det funkar
-	private JPanel centerLabels = new JPanel(new GridLayout(5,0,15,15));
+	private JPanel centerLabels = new JPanel();
+
 	/*
 	 1 & 2, rows and columns, 3 & 4, v gap & h gap 
 	*/
-	
-	//test ImageIcons	
-	private ImageIcon test = new ImageIcon("2S.png");
-	private ImageIcon test3 = new ImageIcon("10H.png");
-	private JLabel test2 = new JLabel(test);
-	//private JLabel test4 = new JLabel(prov2);
 
-		
-	// test resize
-	 Image scaleImage = test.getImage().getScaledInstance(100, 150, Image.SCALE_DEFAULT);
-	 Image scaleImage2 = test3.getImage().getScaledInstance(100, 150, Image.SCALE_DEFAULT);
-	 ImageIcon prov = new ImageIcon(scaleImage);
-	 ImageIcon prov2 = new ImageIcon(scaleImage2);
-	 
-	 // test ImageIcon to Jlabels
-	 private JLabel test4 = new JLabel(prov2);
-	 private JLabel test5 = new JLabel(prov);
-	 
-	 //testin testarray
-	 private JLabel arrayImage = new JLabel(TestArray.picOfCards(3,3));
+	 //testin testarray 
+	 /// mohaha, sneak kommentar lades in här..... och det är okej om man känner personen ish-bra
+	 private JLabel arrayImage = new JLabel(TestArray.picOfCards(2,12));
 	 
 	 
 	public BlackJackWindow () {
@@ -69,16 +50,11 @@ public class BlackJackWindow extends JFrame implements ActionListener{
 		finishButton.addActionListener(this);
 				
 		sum.setForeground(Color.red);
-		
-	
-		//panels
-		
+			
+		//panels		
 		//adding labels to panels
-		//	picturesOfCards.add(test10);
-		picturesOfCards.add(test4);
-		picturesOfCards.add(test5);
-		picturesOfCards.add(arrayImage);
-		
+	
+		picturesOfCards.add(arrayImage);		
 											//  Röd, Grön, Blå (0-255) = RGB
 		picturesOfCards.setBackground(new Color(105, 149, 73));
 		
@@ -90,11 +66,7 @@ public class BlackJackWindow extends JFrame implements ActionListener{
 topLabels.setBackground(Color.green);
 		
 		centerLabels.add(resultOne);
-		centerLabels.add(resultTwo);
-		centerLabels.add(resultThree);
-		centerLabels.add(resultFour);
-		centerLabels.add(resultFive);		
-		
+	
 		buttons.add(startButton);
 		buttons.add(finishButton);
 		buttons.add(restartButton);
@@ -138,11 +110,16 @@ topLabels.setBackground(Color.green);
 				game.giveCardToDealer();
 				sum.setText("sum : " + game.getDealersSum());	
 			
-				resultOne.setText("Results for player 1:  " + game.decideWinner(game.getPlayer(0)));
-				resultTwo.setText("Results for player 2:  " + game.decideWinner(game.getPlayer(1)));
-				resultThree.setText("Results for player 3:  " + game.decideWinner(game.getPlayer(2)));
-				resultFour.setText("Results for player 4:  " + game.decideWinner(game.getPlayer(3)));
-				resultFive.setText("Results for player 5:  " + game.decideWinner(game.getPlayer(4)));
+				resultOne.setText("<html>Results for player 1:  " + game.decideWinner(game.getPlayer(0)) 
+						 + "<br> <br>" + "Results for player 2:  " + game.decideWinner(game.getPlayer(1))
+						 + "<br> <br>" + "Results for player 3:  " + game.decideWinner(game.getPlayer(2))
+						 + "<br> <br>" + "Results for player 4:  " + game.decideWinner(game.getPlayer(3))
+						 + "<br> <br>" + "Results for player 5:  " + game.decideWinner(game.getPlayer(4))
+						 + "</html>");
+//				resultTwo.setText("Results for player 2:  " + game.decideWinner(game.getPlayer(1)));
+//				resultThree.setText("Results for player 3:  " + game.decideWinner(game.getPlayer(2)));
+//				resultFour.setText("Results for player 4:  " + game.decideWinner(game.getPlayer(3)));
+//				resultFive.setText("Results for player 5:  " + game.decideWinner(game.getPlayer(4)));
 				
 				contentArea.add("Center",centerLabels);
 								
