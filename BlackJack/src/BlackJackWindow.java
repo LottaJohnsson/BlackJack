@@ -11,27 +11,28 @@ public class BlackJackWindow extends JFrame implements ActionListener{
 	private int playerTurn = 0;
 	private Container contentArea;
 	private int numberOfCardsActivePlayer;
+	private ImageIcon frontPage = new ImageIcon("frontpage.jpg");
 	
 	private JLabel activePlayer = new JLabel();
 	private JLabel sum = new JLabel ();
 	private JLabel finishedGame = new JLabel();
-	private JLabel resultOne = new JLabel();
+	private JLabel matchResults = new JLabel();
 	private JLabel[] pictureLabels = new JLabel[10];
+	private JLabel frontLabel = new JLabel(frontPage);
+	private JLabel restartLabel = new JLabel("Press start to start a new game");
 	
 	private JButton cardButton = new JButton ("MORE CARDS");
 	private JButton startButton = new JButton("START");
 	private JButton finishButton = new JButton("FINISH TURN");
 	private JButton restartButton = new JButton("RESTART");
 	
-	private JPanel topLabels = new JPanel(new GridLayout(1,2,5,15));
+	private JPanel topLabels = new JPanel(new GridLayout(1,3,5,15));
 	private JPanel buttons = new JPanel(new GridLayout(1,2,5,15));
-	private JPanel picturesOfCards = new JPanel(new GridLayout(1,2,1,1));//kolla hur det funkar
-	private JPanel centerLabels = new JPanel();
+	private JPanel picturesOfCards = new JPanel(new GridLayout(1,2,1,10));//1 & 2, rows and columns, 3 & 4, v gap & h gap 
+	private JPanel eastLabels = new JPanel(new GridLayout(1,2,10,5));
+	private JPanel resetPanel = new JPanel();
 
-	/*
-	 1 & 2, rows and columns, 3 & 4, v gap & h gap 
-	*/
-	 
+		 
 	public BlackJackWindow () {
 		super("BLACKJACK");
 		setSize (500,250);
@@ -40,7 +41,10 @@ public class BlackJackWindow extends JFrame implements ActionListener{
 		
 		contentArea = getContentPane();
 		contentArea.setBackground(new Color(105, 149, 73));
+		//contentArea.setBackground(frontLabel);
+		contentArea.add(frontLabel);
 		
+				
 		//ActionListeners
 		startButton.addActionListener(this);
 		cardButton.addActionListener(this);
@@ -48,25 +52,31 @@ public class BlackJackWindow extends JFrame implements ActionListener{
 		finishButton.addActionListener(this);
 				
 		sum.setForeground(Color.red);
-			
-		//panels		
-		//adding labels to panels
-	
+		
+		
+		Font font = new Font("Times new roman", Font.BOLD,10);
+		matchResults.setFont(font);
+		//sum.setFont(font);	
+		//activePlayer.setFont(font);
+		
 											//  Röd, Grön, Blå (0-255) = RGB
-		picturesOfCards.setBackground(new Color(105, 149, 73));
+		picturesOfCards.setBackground(new Color(105, 150, 80));
 		topLabels.setBackground(Color.lightGray);//ändra färg
-		centerLabels.setBackground(new Color(105, 149, 73));
+		eastLabels.setBackground(new Color(105, 149, 73));
+		restartLabel.setForeground(Color.white);
+		
 		
 		topLabels.add(activePlayer);
 		topLabels.add(sum);
 		topLabels.add(finishedGame);
 		
-		centerLabels.add(resultOne);
+		eastLabels.add(matchResults);
+		resetPanel.add(restartLabel);
 	
 		buttons.add(startButton);
-		buttons.add(finishButton);
-		buttons.add(restartButton);
 		buttons.add(cardButton);
+		buttons.add(finishButton);
+		buttons.add(restartButton);		
 			
 		contentArea.add("North",topLabels);
 		contentArea.add("South",buttons);
@@ -77,14 +87,15 @@ public class BlackJackWindow extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent event) {
 		
 		if (event.getSource()== startButton){
-			game.initialDeal();//decide on dealer, cards or no cards?
+			
+			contentArea.remove(frontLabel);
+			game.initialDeal();
 			sum.setText("sum : " + game.getPlayersSum(playerTurn));
 			activePlayer.setText("Player " + (playerTurn+1));
 			numberOfCardsActivePlayer = game.getPlayer(playerTurn).getNumberOfCards();
 
-	//System.out.println(numberOfCardsActivePlayer);
 						
-			//give Player one cards position 0,1
+			//give Player 1 picture of initial cards
 			for(int i = 0; i < numberOfCardsActivePlayer; i++){
 				pictureLabels[i]= new JLabel(ImageIconArray.picOfCards(game.getPlayer(playerTurn).getCardFromCardHand(i).getColor(),
 									game.getPlayer(playerTurn).getCardFromCardHand(i).getValue()));
@@ -97,7 +108,6 @@ public class BlackJackWindow extends JFrame implements ActionListener{
 		
 			game.giveCardToActivePlayer(playerTurn);//change 0 to number of players
 			sum.setText("sum : " + game.getPlayersSum(playerTurn));
-			
 			numberOfCardsActivePlayer = game.getPlayer(playerTurn).getNumberOfCards();
 			
 			pictureLabels[numberOfCardsActivePlayer-1]= new JLabel(ImageIconArray.picOfCards(game.getPlayer(playerTurn).
@@ -118,13 +128,13 @@ public class BlackJackWindow extends JFrame implements ActionListener{
 				int previousPlayerNumberOfCards = game.getPlayer(playerTurn-1).getNumberOfCards();
 				
 
-				for (int k = 0; k < previousPlayerNumberOfCards; k++){//whyy error
+				for (int k = 0; k < previousPlayerNumberOfCards; k++){
 					picturesOfCards.remove(pictureLabels[k]);
 				}
 				picturesOfCards.repaint();
 				
 			
-				//get initial cards 0,1
+				//get initial cards 
 				for(int i = 0; i < numberOfCardsActivePlayer; i++){
 					pictureLabels[i]= new JLabel(ImageIconArray.picOfCards(game.getPlayer(playerTurn).getCardFromCardHand(i).getColor(),
 										game.getPlayer(playerTurn).getCardFromCardHand(i).getValue()));
@@ -135,38 +145,36 @@ public class BlackJackWindow extends JFrame implements ActionListener{
 			}
 			else{//finish game decide winner
 			
-				finishedGame.setText("The game is over");
-				activePlayer.setText("Dealer");
+				finishedGame.setText("Gameover");
+				activePlayer.setText("The Dealer's cards:");
 				game.giveCardToDealer();
 				sum.setText("sum : " + game.getDealersSum());
-				numberOfCardsActivePlayer = game.getDealerPlayerForGame().getNumberOfCards();
 				
 				for (int k = 0; k < numberOfCardsActivePlayer; k++){
 					picturesOfCards.remove(pictureLabels[k]);
 				}
 				picturesOfCards.repaint();
 				
+				int numberOfCardsDealer = game.getDealerPlayerForGame().getNumberOfCards();
 					
-				for (int n=0; n<numberOfCardsActivePlayer; n++){
-					pictureLabels[n]=new JLabel(ImageIconArray.picOfCards(game.getDealerPlayerForGame().
+				for (int n = 0; n < numberOfCardsDealer; n++){
+					pictureLabels[n] = new JLabel(ImageIconArray.picOfCards(game.getDealerPlayerForGame().
 							getCardFromCardHand(n).getColor(), game.getDealerPlayerForGame().
 							getCardFromCardHand(n).getValue()));
 					
 					picturesOfCards.add(pictureLabels[n]);
 					contentArea.add("West",picturesOfCards);	
 				}
-				//show dealer cards
-				//remove other cards
-			
+							
 				//using html to sidbryt
-				resultOne.setText("<html>Results for player 1:  " + game.decideWinner(game.getPlayer(0)) 
-						 + "<br> <br>" + "Results for player 2:  " + game.decideWinner(game.getPlayer(1))
-						 + "<br> <br>" + "Results for player 3:  " + game.decideWinner(game.getPlayer(2))
-						 + "<br> <br>" + "Results for player 4:  " + game.decideWinner(game.getPlayer(3))
-						 + "<br> <br>" + "Results for player 5:  " + game.decideWinner(game.getPlayer(4))
+				matchResults.setText("<html>" + "  RESULTS FROM ALL MATCHES" + "<br> <br>" + " - Results for player 1:  " + game.decideWinner(game.getPlayer(0)) 
+						 + "<br> <br>" + " - Results for player 2:  " + game.decideWinner(game.getPlayer(1))
+						 + "<br> <br>" + " - Results for player 3:  " + game.decideWinner(game.getPlayer(2))
+						 + "<br> <br>" + " - Results for player 4:  " + game.decideWinner(game.getPlayer(3))
+						 + "<br> <br>" + " - Results for player 5:  " + game.decideWinner(game.getPlayer(4))
 						 + "</html>");
 				
-				contentArea.add("Center",centerLabels);
+				contentArea.add("Center",eastLabels);
 								
 			}
 	}
@@ -179,12 +187,14 @@ public class BlackJackWindow extends JFrame implements ActionListener{
 			activePlayer.setText("");
 			finishedGame.setText("");
 			
-			contentArea.remove(centerLabels);
-			contentArea.remove(picturesOfCards);
+			contentArea.remove(eastLabels);
+			//contentArea.add(resetPanel);
 			
-			//Arrays.fill(null,pictureLabels);
-			
-					
+								
+			for (int n= 0; n<=10; n++){
+				picturesOfCards.remove(pictureLabels[n]);
+			}
+			//contentArea.add(frontLabel);						
 		}
 }
 	
