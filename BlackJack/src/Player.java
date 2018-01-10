@@ -15,6 +15,14 @@ public class Player {
 		cardNumber++;
 	}
 	
+	public int getNumberOfCards(){
+		return cardNumber;
+	}
+	
+	public Card getCardFromCardHand(int index){
+		return cardHand[index];
+	}
+	
 	public int calculateCardHand(){
 		int sumOfCards = 0;
 		int numberOfAces = 0;
@@ -41,6 +49,8 @@ public class Player {
 		Arrays.fill(cardHand, null);
 		cardNumber = 0;
 	}
+	
+	
 	
 	public String toString() {
 		return "Player";

@@ -44,6 +44,10 @@ public class BlackJack {
 		//dealer.giveCardToSelf();
 	}
 	
+	public Player getDealerPlayerForGame(){
+		return dealer.getDealerPlayer();
+	}
+	
 	public void giveCardToActivePlayer(int index){
 		arrayOfPlayers[index].getNewCard(dealer);
 	}

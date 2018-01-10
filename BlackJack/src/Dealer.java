@@ -5,12 +5,15 @@ public class Dealer {
 
 	public Dealer(Deck deck){
 		dealerPlayer = new Player();
-		dealerDeck = deck;
-		
+		dealerDeck = deck;		
 	}
 	
 	public void giveCardToSelf(){
 		dealerPlayer.getNewCard(this); //jag vill ge kort till mig själv alltså denna dealer
+	}
+	
+	public Player getDealerPlayer(){
+		return dealerPlayer;
 	}
 
 	public Card getCardToGive(){

@@ -51,7 +51,7 @@ public class TestArray {
 				Vletter = 'A';
 			}
 			
-			for (int k=1; k<4; k++){
+			for (int k=0; k<4; k++){//changed k start value
 				char suit;
 				if(k==0){
 					suit = 'D';
@@ -75,9 +75,27 @@ public class TestArray {
 		System.out.println("Done initialising pictures for cards!");
 	}
 	
-	public static ImageIcon picOfCards(int Color, int value){
-		//string och int--> 		
-		return pictureArray[Color][value];
+	public static ImageIcon picOfCards(String color, int cardValue){
+		int suit;
+		int value = (cardValue - 2);
+		
+		if (color.equals("Ruter")){
+			suit = 0;
+		}
+		else if (color.equals("Hjärter")){
+			suit = 1;
+		}
+		else if (color.equals("Spader")){
+			suit = 2;
+		}
+		else if(color.equals("Klöver")){
+			suit = 3;
+		}
+		else{
+			suit = 10;
+			System.out.println("fel");
+		}
+		return pictureArray[suit][value];
 	}
 			
 
