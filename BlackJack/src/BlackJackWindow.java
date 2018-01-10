@@ -55,6 +55,7 @@ public class BlackJackWindow extends JFrame implements ActionListener{
 											//  Röd, Grön, Blå (0-255) = RGB
 		picturesOfCards.setBackground(new Color(105, 149, 73));
 		topLabels.setBackground(Color.lightGray);//ändra färg
+		centerLabels.setBackground(new Color(105, 149, 73));
 		
 		topLabels.add(activePlayer);
 		topLabels.add(sum);
@@ -81,11 +82,11 @@ public class BlackJackWindow extends JFrame implements ActionListener{
 			activePlayer.setText("Player " + (playerTurn+1));
 			numberOfCardsActivePlayer = game.getPlayer(playerTurn).getNumberOfCards();
 
-	System.out.println(numberOfCardsActivePlayer);
+	//System.out.println(numberOfCardsActivePlayer);
 						
 			//give Player one cards position 0,1
 			for(int i = 0; i < numberOfCardsActivePlayer; i++){
-				pictureLabels[i]= new JLabel(TestArray.picOfCards(game.getPlayer(playerTurn).getCardFromCardHand(i).getColor(),
+				pictureLabels[i]= new JLabel(ImageIconArray.picOfCards(game.getPlayer(playerTurn).getCardFromCardHand(i).getColor(),
 									game.getPlayer(playerTurn).getCardFromCardHand(i).getValue()));
 				picturesOfCards.add(pictureLabels[i]);
 				contentArea.add("Center",picturesOfCards);
@@ -98,9 +99,8 @@ public class BlackJackWindow extends JFrame implements ActionListener{
 			sum.setText("sum : " + game.getPlayersSum(playerTurn));
 			
 			numberOfCardsActivePlayer = game.getPlayer(playerTurn).getNumberOfCards();
-System.out.println(numberOfCardsActivePlayer);
 			
-			pictureLabels[numberOfCardsActivePlayer-1]= new JLabel(TestArray.picOfCards(game.getPlayer(playerTurn).
+			pictureLabels[numberOfCardsActivePlayer-1]= new JLabel(ImageIconArray.picOfCards(game.getPlayer(playerTurn).
 					getCardFromCardHand(numberOfCardsActivePlayer-1).getColor(),
 					game.getPlayer(playerTurn).getCardFromCardHand(numberOfCardsActivePlayer-1).getValue()));
 			picturesOfCards.add(pictureLabels[numberOfCardsActivePlayer-1]);
@@ -115,17 +115,18 @@ System.out.println(numberOfCardsActivePlayer);
 				activePlayer.setText("Player " + (playerTurn+1));
 				
 				numberOfCardsActivePlayer = game.getPlayer(playerTurn).getNumberOfCards();
+				int previousPlayerNumberOfCards = game.getPlayer(playerTurn-1).getNumberOfCards();
 				
-System.out.println(numberOfCardsActivePlayer);
 
-				for (int k = 0; k < numberOfCardsActivePlayer; k++){//whyy error
+				for (int k = 0; k < previousPlayerNumberOfCards; k++){//whyy error
 					picturesOfCards.remove(pictureLabels[k]);
 				}
 				picturesOfCards.repaint();
+				
 			
 				//get initial cards 0,1
 				for(int i = 0; i < numberOfCardsActivePlayer; i++){
-					pictureLabels[i]= new JLabel(TestArray.picOfCards(game.getPlayer(playerTurn).getCardFromCardHand(i).getColor(),
+					pictureLabels[i]= new JLabel(ImageIconArray.picOfCards(game.getPlayer(playerTurn).getCardFromCardHand(i).getColor(),
 										game.getPlayer(playerTurn).getCardFromCardHand(i).getValue()));
 					picturesOfCards.add(pictureLabels[i]);
 					contentArea.add("Center",picturesOfCards);
@@ -140,13 +141,19 @@ System.out.println(numberOfCardsActivePlayer);
 				sum.setText("sum : " + game.getDealersSum());
 				numberOfCardsActivePlayer = game.getDealerPlayerForGame().getNumberOfCards();
 				
+				for (int k = 0; k < numberOfCardsActivePlayer; k++){
+					picturesOfCards.remove(pictureLabels[k]);
+				}
+				picturesOfCards.repaint();
+				
+					
 				for (int n=0; n<numberOfCardsActivePlayer; n++){
-					pictureLabels[n]=new JLabel(TestArray.picOfCards(game.getDealerPlayerForGame().
+					pictureLabels[n]=new JLabel(ImageIconArray.picOfCards(game.getDealerPlayerForGame().
 							getCardFromCardHand(n).getColor(), game.getDealerPlayerForGame().
 							getCardFromCardHand(n).getValue()));
 					
 					picturesOfCards.add(pictureLabels[n]);
-					contentArea.add("Center",picturesOfCards);	
+					contentArea.add("West",picturesOfCards);	
 				}
 				//show dealer cards
 				//remove other cards
@@ -173,6 +180,10 @@ System.out.println(numberOfCardsActivePlayer);
 			finishedGame.setText("");
 			
 			contentArea.remove(centerLabels);
+			contentArea.remove(picturesOfCards);
+			
+			//Arrays.fill(null,pictureLabels);
+			
 					
 		}
 }

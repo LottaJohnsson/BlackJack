@@ -5,7 +5,7 @@ import java.awt.Image;
 import javax.swing.*;
 
 
-public class TestArray {
+public class ImageIconArray {
 	
 	private static ImageIcon[][] pictureArray = new ImageIcon[4][13];	
 	private static String nameOfPic;
@@ -51,7 +51,7 @@ public class TestArray {
 				Vletter = 'A';
 			}
 			
-			for (int k=0; k<4; k++){//changed k start value
+			for (int k=0; k<4; k++){
 				char suit;
 				if(k==0){
 					suit = 'D';
