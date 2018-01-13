@@ -41,7 +41,6 @@ public class BlackJackWindow extends JFrame implements ActionListener{
 		
 		contentArea = getContentPane();
 		contentArea.setBackground(new Color(105, 149, 73));
-		//contentArea.setBackground(frontLabel);
 		contentArea.add(frontLabel);
 		
 				
@@ -51,8 +50,7 @@ public class BlackJackWindow extends JFrame implements ActionListener{
 		restartButton.addActionListener(this);
 		finishButton.addActionListener(this);
 				
-		sum.setForeground(Color.red);
-		
+		sum.setForeground(Color.red);		
 		
 		Font font = new Font("Times new roman", Font.BOLD,10);
 		matchResults.setFont(font);
@@ -90,7 +88,7 @@ public class BlackJackWindow extends JFrame implements ActionListener{
 			
 			contentArea.remove(frontLabel);
 			game.initialDeal();
-			sum.setText("sum : " + game.getPlayersSum(playerTurn));
+			sum.setText("Sum : " + game.getPlayersSum(playerTurn));
 			activePlayer.setText("Player " + (playerTurn+1));
 			numberOfCardsActivePlayer = game.getPlayer(playerTurn).getNumberOfCards();
 
@@ -121,7 +119,7 @@ public class BlackJackWindow extends JFrame implements ActionListener{
 			
 			if(playerTurn < 4){//change to number of players
 				playerTurn++;
-				sum.setText("sum : " + game.getPlayersSum(playerTurn));
+				sum.setText("Sum : " + game.getPlayersSum(playerTurn));
 				activePlayer.setText("Player " + (playerTurn+1));
 				
 				numberOfCardsActivePlayer = game.getPlayer(playerTurn).getNumberOfCards();
@@ -188,7 +186,7 @@ public class BlackJackWindow extends JFrame implements ActionListener{
 			finishedGame.setText("");
 			
 			contentArea.remove(eastLabels);
-			//contentArea.add(resetPanel);
+			//qcontentArea.add(resetPanel);
 			
 								
 			for (int n= 0; n<=10; n++){

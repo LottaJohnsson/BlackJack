@@ -18,10 +18,13 @@ public class Card {
 	}
 	
 	public static void main(String[] args) {
+		
 		Card newCard = new Card("hjärter", 3);
 		Card secondCard = new Card("klöver", 7);
 		System.out.println(newCard.getColor() + " " + newCard.getValue());
 		System.out.println(secondCard.getColor() + " " + secondCard.getValue());
+		
+		
 
 	}
 
